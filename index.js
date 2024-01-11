@@ -20,3 +20,5 @@ app.listen(PORT, () => {
   console.log(`Application run in environment ${ENV}`);
   console.log(`App listening on port http://localhost:${PORT} 🦾`);
 });
+
+export default app;
