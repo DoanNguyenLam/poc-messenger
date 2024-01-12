@@ -20,7 +20,6 @@ export const getMessageFromBot = async (question) => {
     console.log("URL", URL);
     console.log("BODY", BODY);
     const res = await post(URL, BODY);
-    console.log("Message from bot: ", res.data);
     return res.data;
   } catch (error) {
     console.error("Chatting failed", error);
