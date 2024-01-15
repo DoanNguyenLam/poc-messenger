@@ -8,7 +8,7 @@ import { post } from "./request.js";
 import { getMessageFromBot } from "../services/chatbotService.js";
 
 // Handles messaging_postbacks events
-export const handlePostback = (sender_psid, received_postback) => {
+export const handlePostback = async (sender_psid, received_postback) => {
   console.log("-----------handlePostback \n", received_postback);
 
   let response;
@@ -23,7 +23,7 @@ export const handlePostback = (sender_psid, received_postback) => {
     response = { text: "Oops, try sending another image." };
   }
   // Send the message to acknowledge the postback
-  callSendAPI(sender_psid, response);
+  await callSendAPI(sender_psid, response);
 };
 
 export const handleMessage = async (sender_psid, message) => {
@@ -33,7 +33,7 @@ export const handleMessage = async (sender_psid, message) => {
   console.log("Message", message);
 
   if (message && message.attachments && message.attachments[0].payload) {
-    callSendAPI(sender_psid, "Thank you for watching my video !!!");
+    await callSendAPI(sender_psid, "Thank you for watching my video !!!");
     callSendAPIWithTemplate(sender_psid);
     console.log("----------- handleMessage ATTACHMENT ENDED -----------");
     return;
@@ -51,32 +51,32 @@ export const handleMessage = async (sender_psid, message) => {
 
   if (entityChosen === "") {
     //default
-    console.log("----------- handleMessage AIdaBOT ENDED -----------");
+    console.log("----------- handleMessage AIdaBOT -----------");
 
     // Embed message from AIdaBOT
     const msg = await getMessageFromBot(message.text);
     // const msg = `The bot is needed more training, try to say "thanks a lot" or "hi" to the bot`;
 
-    callSendAPI(sender_psid, msg);
+    await callSendAPI(sender_psid, msg);
   } else {
     if (entityChosen === "wit$greetings") {
       //send greetings message
-      console.log("----------- handleMessage GREETING ENDED -----------");
+      console.log("----------- handleMessage GREETING -----------");
 
-      callSendAPI(
+      await callSendAPI(
         sender_psid,
         "Hello! I'm AIdaBOT. How can I assist you today?"
       );
     }
     if (entityChosen === "wit$thanks") {
       //send thanks message
-      console.log("----------- handleMessage THANKS ENDED -----------");
-      callSendAPI(sender_psid, `You 're welcome!`);
+      console.log("----------- handleMessage THANKS -----------");
+      await callSendAPI(sender_psid, `You 're welcome!`);
     }
     if (entityChosen === "wit$bye") {
       //send bye message
-      console.log("----------- handleMessage BYE ENDED -----------");
-      callSendAPI(
+      console.log("----------- handleMessage BYE -----------");
+      await callSendAPI(
         sender_psid,
         "Goodbye! If you have any more questions in the future, feel free to ask. Have a great day!"
       );
