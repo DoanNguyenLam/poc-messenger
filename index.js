@@ -6,6 +6,7 @@ import bodyParser from "body-parser";
 import {
   ENV,
   MY_VERIFY_FB_TOKEN,
+  PAGE_ID,
   PORT,
 } from "./src/configs/application-props.js";
 import { handleMessage, handlePostback } from "./src/utils/chat.js";
@@ -22,7 +23,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get("/", (req, res) => {
-  return res.render("pages/index");
+  return res.render("pages/index", { pageId: PAGE_ID });
 });
 
 app.get("/webhook/", (req, res) => {
@@ -83,12 +84,10 @@ app.post("/webhook", function (req, res) {
       // Return a '200 OK' response to all events
       res.status(200).send("EVENT_RECEIVED");
       console.log("********** WEBHOOK ENDED **********");
-
     } else {
       // Return a '404 Not Found' if event is not from a page subscription
       res.sendStatus(404);
       console.log("********** WEBHOOK 404 **********");
-
     }
   } catch (error) {
     console.log("Exception Body: \n", body);
