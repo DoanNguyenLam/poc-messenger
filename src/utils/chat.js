@@ -1,5 +1,9 @@
 import request from "request";
-import { FB_BASE_URL, FB_TOKEN } from "../configs/application-props.js";
+import {
+  FB_BASE_URL,
+  FB_TOKEN,
+  PAGE_ID,
+} from "../configs/application-props.js";
 import { post } from "./request.js";
 import { getMessageFromBot } from "../services/chatbotService.js";
 
@@ -97,7 +101,11 @@ export const callSendAPI = async (sender_psid, response) => {
   };
 
   try {
-    const res = await post(FB_BASE_URL, request_body, params);
+    const res = await post(
+      `${FB_BASE_URL}/${PAGE_ID}/messages`,
+      request_body,
+      params
+    );
     console.log("Response from FB", res);
     console.log("Sent message successfully ✅");
   } catch (error) {
@@ -167,11 +175,7 @@ const callSendAPIWithTemplate = async (sender_psid) => {
   };
 
   try {
-    const res = await post(
-      "https://graph.facebook.com/v6.0/me/messages",
-      body,
-      params
-    );
+    const res = await post(`${FB_BASE_URL}/${PAGE_ID}/messages`, body, params);
     console.log("Response from FB", res);
     console.log("Sent message successfully ✅");
   } catch (error) {
