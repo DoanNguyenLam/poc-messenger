@@ -42,8 +42,9 @@
 
       <script>
         var chatbox = document.getElementById('fb-customer-chat');
-        chatbox.setAttribute("page_id", <%= pageId %>);
-        chatbox.setAttribute("attribution", "biz_inbox");
+        var pageID = "<%= pageId %>";
+        chatbox.setAttribute('page_id', pageID);
+        chatbox.setAttribute('attribution', 'biz_inbox');
       </script>
 
       <!-- Your SDK code -->
