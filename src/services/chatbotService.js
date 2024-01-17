@@ -23,7 +23,7 @@ export const getMessageFromBot = async (question) => {
     const res = await post(URL, BODY);
     console.log("-----------BODY\n", res);
     console.log("********** Message from AIdaBOT END\n");
-    return `🤖 ${res.data}`;
+    return `"${res.data}" \n\n 🎯Powered by AIdaBOT.`;
   } catch (error) {
     console.error("Chatting failed", error);
     throw new Error(error.message);
