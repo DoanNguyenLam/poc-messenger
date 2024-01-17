@@ -26,21 +26,22 @@ app.get("/", (req, res) => {
   return res.render("pages/index", { pageId: PAGE_ID });
 });
 
-app.get("/webhook/", (req, res) => {
+// Add support for GET requests to our webhook
+app.get("/webhook", (req, res) => {
   // Parse the query params
   let mode = req.query["hub.mode"];
   let token = req.query["hub.verify_token"];
   let challenge = req.query["hub.challenge"];
 
-  // Checks if a token and mode is in the query string of the request
+  // Check if a token and mode is in the query string of the request
   if (mode && token) {
-    // Checks the mode and token sent is correct
+    // Check the mode and token sent is correct
     if (mode === "subscribe" && token === MY_VERIFY_FB_TOKEN) {
-      // Responds with the challenge token from the request
+      // Respond with the challenge token from the request
       console.log("WEBHOOK_VERIFIED");
       res.status(200).send(challenge);
     } else {
-      // Responds with '403 Forbidden' if verify tokens do not match
+      // Respond with '403 Forbidden' if verify tokens do not match
       res.sendStatus(403);
     }
   }
@@ -62,6 +63,7 @@ app.post("/webhook", async function (req, res) {
         // Gets the body of the webhook event
         console.log("ENTRY \n", entry);
         if (!entry.messaging || !entry.messaging.length) {
+          console.log(entry.standby[0].message);
           console.log("Event failure");
           continue;
         }

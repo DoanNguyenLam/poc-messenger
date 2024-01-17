@@ -39,49 +39,13 @@ export const handleMessage = async (sender_psid, message) => {
     return;
   }
 
-  let entitiesArr = ["wit$greetings", "wit$thanks", "wit$bye"];
-  let entityChosen = "";
-  entitiesArr.forEach((name) => {
-    let entity = firstTrait(message.nlp, name);
-    console.log("entity", name, message.nlp, entity);
-    if (entity && entity.confidence > 0.8) {
-      entityChosen = name;
-    }
-  });
+  console.log("----------- handleMessage AIdaBOT -----------");
 
-  if (entityChosen === "") {
-    //default
-    console.log("----------- handleMessage AIdaBOT -----------");
+  // Embed message from AIdaBOT
+  const msg = await getMessageFromBot(message.text);
+  // const msg = `The bot is needed more training, try to say "thanks a lot" or "hi" to the bot`;
 
-    // Embed message from AIdaBOT
-    const msg = await getMessageFromBot(message.text);
-    // const msg = `The bot is needed more training, try to say "thanks a lot" or "hi" to the bot`;
-
-    await callSendAPI(sender_psid, msg);
-  } else {
-    if (entityChosen === "wit$greetings") {
-      //send greetings message
-      console.log("----------- handleMessage GREETING -----------");
-
-      await callSendAPI(
-        sender_psid,
-        "Hello! I'm AIdaBOT. How can I assist you today?"
-      );
-    }
-    if (entityChosen === "wit$thanks") {
-      //send thanks message
-      console.log("----------- handleMessage THANKS -----------");
-      await callSendAPI(sender_psid, `You 're welcome!`);
-    }
-    if (entityChosen === "wit$bye") {
-      //send bye message
-      console.log("----------- handleMessage BYE -----------");
-      await callSendAPI(
-        sender_psid,
-        "Goodbye! If you have any more questions in the future, feel free to ask. Have a great day!"
-      );
-    }
-  }
+  await callSendAPI(sender_psid, msg);
 };
 
 // Sends response messages via the Send API
